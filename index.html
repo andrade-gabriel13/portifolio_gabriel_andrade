@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Andrade · Engenheiro de Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0f;
+      --bg2:       #111118;
+      --bg3:       #1a1a24;
+      --border:    #2a2a3a;
+      --accent:    #5b8dee;
+      --accent2:   #a78bfa;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+      --green:     #34d399;
+      --orange:    #fb923c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── GLOW ── */
+    .glow {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,141,238,0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      top: -100px; left: -100px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 80px;
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(42px, 8vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+
+    h1 .dim { color: var(--muted); }
+
+    .hero-sub {
+      margin-top: 24px;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .hero-sub strong { color: var(--text); }
+
+    .hero-contacts {
+      margin-top: 32px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #4a7ce0;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .hero-stats {
+      margin-top: 56px;
+      display: flex;
+      gap: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .stat-num span { color: var(--accent); }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 0; }
+
+    .section-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+
+    /* ── STACK ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .stack-group {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .stack-group-title {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      transition: all 0.15s;
+    }
+
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .exp-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .exp-item:hover { border-color: #3a3a50; }
+
+    .exp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      gap: 16px;
+      background: var(--bg2);
+    }
+
+    .exp-header:hover { background: var(--bg3); }
+
+    .exp-company {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .exp-role {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .exp-period {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .exp-chevron {
+      color: var(--muted);
+      transition: transform 0.3s;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .exp-item.open .exp-chevron { transform: rotate(180deg); }
+
+    .exp-body {
+      display: none;
+      padding: 0 24px 20px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .exp-item.open .exp-body { display: block; padding-top: 16px; }
+
+    .exp-body ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .exp-body li {
+      color: var(--muted);
+      font-size: 12px;
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .exp-body li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .exp-body li strong { color: var(--text); }
+
+    .exp-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── PROJECTS ── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) { .proj-grid { grid-template-columns: 1fr; } }
+
+    .proj-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proj-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .proj-card:hover {
+      border-color: #3a3a55;
+      transform: translateY(-2px);
+    }
+
+    .proj-card:hover::before { opacity: 1; }
+
+    .proj-icon { font-size: 24px; margin-bottom: 12px; }
+
+    .proj-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .proj-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .proj-highlight {
+      font-size: 11px;
+      color: var(--green);
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.2);
+      padding: 6px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    .proj-link {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .edu-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 16px 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .edu-period {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 80px;
+    }
+
+    .edu-inst {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .edu-course {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      nav { padding: 14px 20px; }
+      nav ul { gap: 16px; }
+      .wrapper { padding: 0 20px; }
+      .hero-stats { gap: 24px; }
+      .stack-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow"></div>
+
+<nav>
+  <div class="nav-logo">ga<span>.</span>dev</div>
+  <ul>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#experiencia">Exp</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#formacao">Formação</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="wrapper">
+  <section id="hero">
+    <p class="hero-label">// disponível para posições remotas</p>
+    <h1>Gabriel<br><span class="dim">Andrade</span></h1>
+    <p class="hero-sub">
+      Engenheiro de Dados &amp; Software com <strong>10+ anos</strong> em tecnologia.<br>
+      Especializado em arquitetura de pipelines, infraestrutura cloud AWS e automação.<br>
+      Migrei ambientes monolíticos para Data Lakehouse com <strong>redução de 50–70% no tempo de processamento</strong>.
+    </p>
+    <div class="hero-contacts">
+      <a href="https://www.linkedin.com/in/gabrielandradesouza" target="_blank" class="btn btn-primary">
+        ↗ LinkedIn
+      </a>
+      <a href="mailto:gabriel_andrade_souza@yahoo.com" class="btn btn-ghost">
+        ✉ gabriel_andrade_souza@yahoo.com
+      </a>
+      <a href="https://github.com/andrade-gabriel13" target="_blank" class="btn btn-ghost">
+        ⌥ GitHub
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">anos em tech</div>
+      </div>
+      <div>
+        <div class="stat-num">50<span>%</span></div>
+        <div class="stat-label">redução processamento</div>
+      </div>
+      <div>
+        <div class="stat-num">20<span>%</span></div>
+        <div class="stat-label">redução custos AWS</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── SOBRE ── -->
+<div class="wrapper">
+  <section id="sobre">
+    <div class="reveal">
+      <p class="section-tag">// 001 — sobre</p>
+      <h2>Quem sou</h2>
+      <p style="color:var(--muted);max-width:620px;line-height:1.9;font-size:13px;">
+        Trajetória que passou por infraestrutura on-premise, IoT, sistemas embarcados Linux e visão computacional
+        antes de consolidar foco em engenharia de dados e arquitetura cloud. Na posição atual, liderei a modernização
+        completa de um ambiente de dados — migrando de arquitetura monolítica (EC2 + RDS) para stack distribuída
+        com ECS, Airflow, Kafka e Data Lakehouse sobre Apache Iceberg.<br><br>
+        Diferencial em pipelines com integração de LLMs (Claude API, OpenAI, Ollama), processamento de documentos
+        com OCR e APIs em Go para sistemas cross-platform.
+      </p>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── STACK ── -->
+<div class="wrapper">
+  <section id="stack">
+    <div class="reveal">
+      <p class="section-tag">// 002 — stack</p>
+      <h2>Tecnologias</h2>
+      <div class="stack-grid">
+
+        <div class="stack-group">
+          <div class="stack-group-title">Linguagens</div>
+          <div class="stack-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Go</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Bash</span>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-title">Engenharia de Dados</div>
+          <div class="stack-tags">
+            <span class="tag">Airflow</span>
+            <span class="tag">Kafka</span>
+            <span class="tag">dbt</span>
+            <span class="tag">PySpark</span>
+            <span class="tag">Apache Iceberg</span>
+            <span class="tag">Data Vault</span>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-title">Cloud & Infra</div>
+          <div class="stack-tags">
+            <span class="tag">AWS</span>
+            <span class="tag">GCP</span>
+            <span class="tag">ECS</span>
+            <span class="tag">Glue</span>
+            <span class="tag">Athena</span>
+            <span class="tag">Lambda</span>
+            <span class="tag">MWAA</span>
+            <span class="tag">Terraform</span>
+            <span class="tag">Docker</span>
+            <span class="tag">GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-title">Observabilidade</div>
+          <div class="stack-tags">
+            <span class="tag">Grafana</span>
+            <span class="tag">Prometheus</span>
+            <span class="tag">Datadog</span>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-title">ML & Visão Computacional</div>
+          <div class="stack-tags">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">YOLO</span>
+            <span class="tag">OpenVINO</span>
+            <span class="tag">OpenCV</span>
+          </div>
+        </div>
+
+        <div class="stack-group">
+          <div class="stack-group-title">IoT & Embarcados</div>
+          <div class="stack-tags">
+            <span class="tag">MQTT</span>
+            <span class="tag">InfluxDB</span>
+            <span class="tag">Yocto</span>
+            <span class="tag">Linux Embarcado</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIÊNCIA ── -->
+<div class="wrapper">
+  <section id="experiencia">
+    <div class="reveal">
+      <p class="section-tag">// 003 — experiência</p>
+      <h2>Onde trabalhei</h2>
+      <div class="exp-list">
+
+        <div class="exp-item open">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">CP Legal Claims</div>
+              <div class="exp-role">Engenheiro de Dados</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">dez 2024 – presente<br>São Paulo, SP</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Migração para ECS com Airflow (10+ DAGs), dbt e Kafka — <strong>redução de 50–70% no tempo de processamento</strong></li>
+              <li>Data Lakehouse com Apache Iceberg e modelagem Data Vault sobre S3, integrado a Athena e Glue Catalog</li>
+              <li>Pipelines ETL jurídicos com extração automatizada, OCR e análise semântica via <strong>LLMs (Claude API, OpenAI, Ollama)</strong></li>
+              <li>API em Go para processamento de PDFs — binário cross-platform para cloud e Windows</li>
+              <li>IaC com Terraform e CI/CD via GitHub Actions — <strong>redução de 20% em custos AWS</strong></li>
+              <li>Integrações bidirecionais com HubSpot, Power Automate e APIs GCP</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Python</span><span class="tag">Go</span><span class="tag">AWS</span>
+              <span class="tag">Airflow</span><span class="tag">Kafka</span><span class="tag">dbt</span>
+              <span class="tag">Terraform</span><span class="tag">Apache Iceberg</span><span class="tag">PyArrow</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">Empresa confidencial</div>
+              <div class="exp-role">Data Engineer | Data Science</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">jan – set 2024<br>Rio de Janeiro, RJ</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>DAGs e pipelines completos com Airflow e Docker em ECS</li>
+              <li>Integrações com Airbyte, transformações com dbt e Pandas</li>
+              <li>Arquitetura medalhão com S3, Lambda e RDS distribuídos</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Python</span><span class="tag">Airflow</span><span class="tag">Docker</span>
+              <span class="tag">ECS</span><span class="tag">Airbyte</span><span class="tag">dbt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">Empresa confidencial</div>
+              <div class="exp-role">Software Engineer | IoT | Yocto</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">mai – dez 2023<br>São Paulo, SP</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Distribuições Linux customizadas via Yocto para dispositivos IoT embarcados</li>
+              <li>Telemetria com MQTT e InfluxDB (PUB/SUB) com monitoramento em Grafana e Prometheus</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Python</span><span class="tag">Yocto</span><span class="tag">MQTT</span>
+              <span class="tag">InfluxDB</span><span class="tag">Grafana</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">Empresa confidencial</div>
+              <div class="exp-role">Computer Vision Engineer | IoT</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">nov 2022 – mai 2023<br>Rio de Janeiro, RJ</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Detecção de objetos em sistemas de vigilância com YOLO e MobileNet-SSD</li>
+              <li>Otimização de inferência com OpenVINO e Intel NCS 2 em sistemas embarcados</li>
+              <li>Processamento de vídeo com FFMPEG e visualização em Streamlit</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">YOLO</span>
+              <span class="tag">OpenVINO</span><span class="tag">FFMPEG</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">Tecno Life Soluções</div>
+              <div class="exp-role">Analista de Infraestrutura</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">fev 2019 – out 2020<br>Rio de Janeiro, RJ</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Operação de servidores físicos e virtuais, redes e bancos (PostgreSQL, MySQL)</li>
+              <li>Montagem de CPDs, cabeamento estruturado, CFTV e firewalls</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Linux</span><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span class="tag">VMware</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header" onclick="toggleExp(this)">
+            <div>
+              <div class="exp-company">Exército Brasileiro</div>
+              <div class="exp-role">Analista de Suporte de TI</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div class="exp-period">mar 2011 – fev 2019<br>Rio de Janeiro, RJ</div>
+              <span class="exp-chevron">▼</span>
+            </div>
+          </div>
+          <div class="exp-body">
+            <ul>
+              <li>Liderança de equipe de helpdesk com documentação e métricas de performance</li>
+              <li>Desenvolvimento front-end, back-end e DBA (MySQL, PostgreSQL)</li>
+              <li>Gestão de servidores em CPDs com VMware e XenServer (contingência, storage, backup)</li>
+            </ul>
+            <div class="exp-stack">
+              <span class="tag">Linux</span><span class="tag">MySQL</span><span class="tag">PostgreSQL</span>
+              <span class="tag">VMware</span><span class="tag">XenServer</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PROJETOS ── -->
+<div class="wrapper">
+  <section id="projetos">
+    <div class="reveal">
+      <p class="section-tag">// 004 — projetos</p>
+      <h2>Open Source</h2>
+      <div class="proj-grid">
+
+        <a href="https://github.com/andrade-gabriel13/case_cpl" target="_blank" class="proj-card">
+          <div class="proj-icon">🔍</div>
+          <div class="proj-title">Pipeline Medallion · TJSP</div>
+          <div class="proj-desc">
+            Monitoramento automatizado de processos jurídicos com arquitetura Bronze → Silver → Gold,
+            orquestração Airflow, S3 via Localstack e PostgreSQL separado por camada.
+          </div>
+          <div class="proj-highlight">⚡ 10x mais rápido que BeautifulSoup via regex direto no payload</div>
+          <div class="exp-stack" style="margin-top:0;padding-top:0;border:none;">
+            <span class="tag">Python</span><span class="tag">Airflow</span><span class="tag">PostgreSQL</span>
+            <span class="tag">Docker</span><span class="tag">S3</span>
+          </div>
+          <div class="proj-link" style="margin-top:14px;">↗ ver repositório</div>
+        </a>
+
+        <a href="https://github.com/andrade-gabriel13/backend_golang" target="_blank" class="proj-card">
+          <div class="proj-icon">🗺️</div>
+          <div class="proj-title">API REST · Geolocalização em Go</div>
+          <div class="proj-desc">
+            API de cadastro com geocoding reverso (endereço → lat/long), visualização em mapa,
+            Swagger e testes unitários cobrindo criação e atualização de entidades.
+          </div>
+          <div class="proj-highlight">✓ Testes: go test ./tests -v · Cross-platform via Docker</div>
+          <div class="exp-stack" style="margin-top:0;padding-top:0;border:none;">
+            <span class="tag">Go</span><span class="tag">GORM</span><span class="tag">MySQL</span>
+            <span class="tag">Docker</span><span class="tag">Swagger</span>
+          </div>
+          <div class="proj-link" style="margin-top:14px;">↗ ver repositório</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── FORMAÇÃO ── -->
+<div class="wrapper">
+  <section id="formacao">
+    <div class="reveal">
+      <p class="section-tag">// 005 — formação</p>
+      <h2>Educação</h2>
+      <div class="edu-list">
+        <div class="edu-item">
+          <div class="edu-period">2023 – 2027</div>
+          <div>
+            <div class="edu-inst">Estácio</div>
+            <div class="edu-course">Bacharelado em Engenharia de Software</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period">2022 – 2024</div>
+          <div>
+            <div class="edu-inst">XP Educação</div>
+            <div class="edu-course">MBA — Engenharia de Machine Learning</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period">2020 – 2021</div>
+          <div>
+            <div class="edu-inst">Estácio</div>
+            <div class="edu-course">Pós-graduação — Ciência de Dados</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-period">2014 – 2018</div>
+          <div>
+            <div class="edu-inst">Faculdades Integradas Simonsen</div>
+            <div class="edu-course">Tecnólogo — Análise e Desenvolvimento de Sistemas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+  <div class="wrapper">
+    <p>
+      <a href="mailto:gabriel_andrade_souza@yahoo.com">gabriel_andrade_souza@yahoo.com</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/gabrielandradesouza" target="_blank">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/andrade-gabriel13" target="_blank">GitHub</a>
+    </p>
+    <p style="margin-top:8px;font-size:11px;">Duque de Caxias, RJ · disponível para posições remotas</p>
+  </div>
+</footer>
+
+<script>
+  // Accordion experiência
+  function toggleExp(header) {
+    const item = header.closest('.exp-item');
+    item.classList.toggle('open');
+  }
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Glow segue o mouse suavemente
+  const glow = document.querySelector('.glow');
+  document.addEventListener('mousemove', (e) => {
+    glow.style.left = (e.clientX - 300) + 'px';
+    glow.style.top  = (e.clientY - 300) + 'px';
+  });
+</script>
+</body>
+</html>
