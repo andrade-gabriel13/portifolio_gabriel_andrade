@@ -29,8 +29,8 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 15px;
-      line-height: 2;
+      font-size: 14px;
+      line-height: 1.7;
       overflow-x: hidden;
     }
 
@@ -146,7 +146,7 @@
       max-width: 560px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 2;
+      line-height: 1.8;
       opacity: 0;
       animation: fadeUp 0.6s 0.5s forwards;
     }
@@ -356,7 +356,7 @@
       font-size: 12px;
       padding-left: 16px;
       position: relative;
-      line-height: 1.9;
+      line-height: 1.6;
     }
 
     .exp-body li::before {
@@ -429,7 +429,7 @@
     .proj-desc {
       font-size: 12px;
       color: var(--muted);
-      line-height: 2;
+      line-height: 1.7;
       margin-bottom: 16px;
     }
 
@@ -473,7 +473,7 @@
     .edu-inst {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text);
     }
 
@@ -555,7 +555,7 @@
     <p class="hero-label">// disponível para posições remotas</p>
     <h1>Gabriel<br><span class="dim">Andrade</span></h1>
     <p class="hero-sub">
-      Engenheiro e Arquiteto Dados, &amp; Software &amp; IoT <br>
+      Engenheiro e Arquiteto de Dados &amp; Software e IoT <br>
       Especializado em arquitetura de pipelines, infraestrutura cloud AWS e automação.<br>
       Migrei ambientes monolíticos para Data Lakehouse com <strong>redução de 50–70% no tempo de processamento</strong>.
     </p>
@@ -563,8 +563,8 @@
       <a href="https://www.linkedin.com/in/gabrielandradesouza" target="_blank" class="btn btn-primary">
         ↗ LinkedIn
       </a>
-      <a href="/cdn-cgi/l/email-protection#9afdfbf8e8f3fff6c5fbf4fee8fbfeffc5e9f5efe0fbdae3fbf2f5f5b4f9f5f7" class="btn btn-ghost">
-        ✉ <span class="__cf_email__" data-cfemail="d1b6b0b3a3b8b4bd8eb0bfb5a3b0b5b48ea2bea4abb091a8b0b9bebeffb2bebc">[email&#160;protected]</span>
+      <a href="mailto:gabriel_andrade_souza@yahoo.com" class="btn btn-ghost">
+        ✉ gabriel_andrade_souza@yahoo.com
       </a>
       <a href="https://github.com/andrade-gabriel13" target="_blank" class="btn btn-ghost">
         ⌥ GitHub
@@ -595,7 +595,7 @@
     <div class="reveal">
       <p class="section-tag">// 001 — sobre</p>
       <h2>Quem sou</h2>
-      <p style="color:var(--muted);max-width:620px;line-height:2.1;font-size:13px;">
+      <p style="color:var(--muted);max-width:620px;line-height:1.9;font-size:13px;">
         Trajetória que passou por infraestrutura on-premise, IoT, sistemas embarcados Linux e visão computacional
         antes de consolidar foco em engenharia de dados e arquitetura cloud. Na posição atual, liderei a modernização
         completa de um ambiente de dados — migrando de arquitetura monolítica (EC2 + RDS) para stack distribuída
@@ -942,7 +942,7 @@
 <footer>
   <div class="wrapper">
     <p>
-      <a href="/cdn-cgi/l/email-protection#b3d4d2d1c1dad6dfecd2ddd7c1d2d7d6ecc0dcc6c9d2f3cad2dbdcdc9dd0dcde"><span class="__cf_email__" data-cfemail="7f181e1d0d161a13201e111b0d1e1b1a200c100a051e3f061e171010511c1012">[email&#160;protected]</span></a>
+      <a href="mailto:gabriel_andrade_souza@yahoo.com">gabriel_andrade_souza@yahoo.com</a>
       &nbsp;·&nbsp;
       <a href="https://www.linkedin.com/in/gabrielandradesouza" target="_blank">LinkedIn</a>
       &nbsp;·&nbsp;
@@ -952,7 +952,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Accordion experiência
   function toggleExp(header) {
     const item = header.closest('.exp-item');
@@ -963,4 +963,20 @@
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecti
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+
+  // Glow segue o mouse suavemente
+  const glow = document.querySelector('.glow');
+  document.addEventListener('mousemove', (e) => {
+    glow.style.left = (e.clientX - 300) + 'px';
+    glow.style.top  = (e.clientY - 300) + 'px';
+  });
+</script>
+</body>
+</html>
