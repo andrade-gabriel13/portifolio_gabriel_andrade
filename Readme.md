@@ -1,6 +1,6 @@
 # Gabriel Andrade
 
-### Engenheiro de Dados & Software · 10+ anos em tecnologia
+### Engenheiro e Arquiteto de Dados & Software · 10+ anos em tecnologia
 
 📍 Duque de Caxias, RJ · 📧 gabriel_andrade_souza@yahoo.com · 📱 (21) 97509-9661
 
@@ -77,7 +77,7 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 
 ---
 
-### Empresa confidencial · Data Engineer | Data Science
+### Gabriel Tecnologia· Data Engineer | Data Science
 **jan 2024 – set 2024 · Rio de Janeiro, RJ**
 
 - Desenvolvimento de DAGs e pipelines completos com Airflow e Docker em ECS
@@ -88,7 +88,7 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 
 ---
 
-### Empresa confidencial · Software Engineer | IoT | Yocto
+### Gabriel Tecnologia· Software Engineer | IoT | Yocto
 **mai 2023 – dez 2023 · São Paulo, SP**
 
 - Soluções para dispositivos IoT com Linux embarcado e distribuições customizadas via Yocto
@@ -98,7 +98,7 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 
 ---
 
-### Empresa confidencial · Computer Vision Engineer | IoT
+### Gabriel Tecnologia· Computer Vision Engineer | IoT
 **nov 2022 – mai 2023 · Rio de Janeiro, RJ**
 
 - Processamento de imagem e vídeo com FFMPEG para sistemas de vigilância embarcados
@@ -108,7 +108,7 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 
 ---
 
-### Empresa confidencial · Technical Support Coordinator
+### Gabriel Tecnologia· Technical Support Coordinator
 **mar 2022 – nov 2022 · Rio de Janeiro, RJ**
 
 - Liderança de time técnico presencial e remoto
@@ -118,7 +118,7 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 
 ---
 
-### Empresa confidencial · Systems Support Analyst
+### Gabriel Tecnologia· Systems Support Analyst
 **out 2020 – mar 2022 · Rio de Janeiro, RJ**
 
 - Monitoramento, manutenção e resolução de problemas em dispositivos IoT com Linux embarcado e Docker
@@ -150,6 +150,43 @@ Arquiteto responsável pela modernização completa do ambiente de dados, conduz
 - Montagem de infraestrutura física e sistemas de monitoramento
 
 `Linux` `Windows Server` `MySQL` `PostgreSQL` `VMware` `XenServer`
+
+---
+
+## Projetos
+
+### 🔍 Pipeline Medallion — Monitoramento de Processos Jurídicos
+**[`andrade-gabriel13/case_cpl`](https://github.com/andrade-gabriel13/case_cpl)** · Python · Airflow · PostgreSQL · S3 · Docker
+
+Desafio técnico resolvido com arquitetura de dados real, não só um script funcional.
+
+**Problema:** monitorar diariamente movimentações de processos jurídicos no TJSP (e-Saj), de forma automatizada e incremental.
+
+**Decisões de arquitetura:**
+- Arquitetura Medallion (Bronze → Silver → Gold) com PostgreSQL separado por camada — isolamento de contratos de dados evita que transformações corrompam a fonte
+- Airflow orquestrando os 3 estágios com DAGs independentes por camada
+- Localstack emulando S3 localmente — ambiente de desenvolvimento fiel ao cloud sem custo
+- Scraping direto via regex no payload do endpoint em vez de BeautifulSoup/Scrapy — **10x mais performático** para o volume desse caso
+
+**Lição técnica:** XCOM do Airflow tem limite de tamanho prático. Para grandes volumes, a referência correta é passar o path S3, não o dado em si.
+
+`Python` `Airflow` `PostgreSQL` `Docker` `Localstack` `S3` `Medallion`
+
+---
+
+### 🗺️ API REST com Geolocalização — Backend em Go
+**[`andrade-gabriel13/backend_golang`](https://github.com/andrade-gabriel13/backend_golang)** · Go · MySQL · Docker · Swagger
+
+API de cadastro de clientes com geocoding reverso, visualização em mapa e testes unitários.
+
+**Destaques técnicos:**
+- Validação estruturada de campos com logging granular por campo — facilita debug em produção
+- Integração com API de geocoding para resolução de endereço → lat/long sem depender do Google Maps
+- Swagger documentado e testável diretamente na interface
+- Testes unitários cobrindo criação e atualização de entidades (`go test ./tests -v`)
+- Binário cross-platform via Docker Compose — zero configuração manual
+
+`Go` `GORM` `MySQL` `Docker` `Swagger` `REST`
 
 ---
 
