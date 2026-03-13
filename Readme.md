@@ -1,6 +1,6 @@
 # Gabriel Andrade
 
-### Engenheiro e Arquiteto de Dados & Software · 10+ anos em tecnologia
+### Engenheiro e Arquiteto de Dados & Software 
 
 📍 Duque de Caxias, RJ · 📧 gabriel_andrade_souza@yahoo.com · 📱 (21) 97509-9661
 
