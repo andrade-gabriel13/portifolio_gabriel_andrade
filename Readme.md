@@ -214,7 +214,7 @@ API de cadastro de clientes com geocoding reverso, visualização em mapa e test
 
 | Período | Instituição | Curso |
 |---|---|---|
-| 2023 – 2027 | Estácio | Bacharelado em Engenharia de Software |
+| 2023 – 2026 | Estácio | Bacharelado em Engenharia de Software |
 | 2022 – 2024 | XP Educação | MBA — Engenharia de Machine Learning |
 | 2020 – 2021 | Estácio | Pós-graduação — Ciência de Dados |
 | 2014 – 2018 | Faculdades Integradas Simonsen | Tecnólogo — Análise e Desenvolvimento de Sistemas |
