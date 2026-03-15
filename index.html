@@ -384,6 +384,10 @@
       gap: 16px;
     }
 
+    .proj-card.featured {
+      grid-column: 1 / -1;
+    }
+
     @media (max-width: 640px) { .proj-grid { grid-template-columns: 1fr; } }
 
     .proj-card {
@@ -859,6 +863,23 @@
       <p class="section-tag">// 004 — projetos</p>
       <h2>Open Source</h2>
       <div class="proj-grid">
+
+        <a href="https://github.com/andrade-gabriel13/br-tech-radar" target="_blank" class="proj-card featured">
+          <div class="proj-icon">📡</div>
+          <div class="proj-title">BR Tech Radar — Pipeline End-to-End do Ecossistema de Startups Brasileiro</div>
+          <div class="proj-desc">
+            Pipeline de dados end-to-end que monitora o ecossistema de startups brasileiro — consolida inteligência sobre investimentos,
+            vagas tech e tendências de stack a partir de APIs públicas, scrapers e PDFs de relatórios do setor (Abstartups, CVM, BNDES, LAVCA).
+          </div>
+          <div class="proj-highlight">⚡ Kafka KRaft · 6 DAGs Airflow · dbt 3 camadas · RAG em português com pgvector + Groq llama-3.3-70b · Observabilidade de LLM via Prometheus</div>
+          <div class="exp-stack" style="margin-top:12px;padding-top:12px;">
+            <span class="tag">Python</span><span class="tag">Kafka</span><span class="tag">Airflow</span>
+            <span class="tag">dbt</span><span class="tag">PostgreSQL</span><span class="tag">pgvector</span>
+            <span class="tag">Groq</span><span class="tag">Streamlit</span><span class="tag">Grafana</span>
+            <span class="tag">Prometheus</span><span class="tag">Docker</span>
+          </div>
+          <div class="proj-link" style="margin-top:14px;">↗ ver repositório</div>
+        </a>
 
         <a href="https://github.com/andrade-gabriel13/case_cpl" target="_blank" class="proj-card">
           <div class="proj-icon">🔍</div>

@@ -4,7 +4,7 @@
 
 📍 Duque de Caxias, RJ · 📧 gabriel_andrade_souza@yahoo.com · 📱 (21) 97509-9661
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-gabrielandradesouza-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/gabrielandradesouza)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-gabrielandradesouza-0A66C2?style=flat&logo=linkedin&logoColor=white)](www.linkedin.com/in/gabriel-andradesouza/)
 
 ---
 
@@ -171,6 +171,26 @@ Desafio técnico resolvido com arquitetura de dados real, não só um script fun
 **Lição técnica:** XCOM do Airflow tem limite de tamanho prático. Para grandes volumes, a referência correta é passar o path S3, não o dado em si.
 
 `Python` `Airflow` `PostgreSQL` `Docker` `Localstack` `S3` `Medallion`
+
+---
+
+### 📡 BR Tech Radar — Pipeline End-to-End do Ecossistema de Startups Brasileiro
+**[`andrade-gabriel13/br-tech-radar`](https://github.com/andrade-gabriel13/br-tech-radar)** · Python · Kafka · Airflow · dbt · PostgreSQL · pgvector · Groq · Streamlit · Docker
+
+Pipeline de dados end-to-end que monitora o ecossistema de startups brasileiro — coleta, transforma e disponibiliza inteligência sobre investimentos, vagas tech e tendências de stack.
+
+**Problema:** dados do ecossistema de startups brasileiro estão fragmentados em diversas fontes (APIs públicas, scrapers, PDFs de relatórios) sem uma visão consolidada e observável.
+
+**Decisões de arquitetura:**
+- Kafka 3.9 em modo KRaft (sem Zookeeper) com tópicos por domínio (`raw.jobs`, `raw.news`, `raw.companies`) — desacoplamento entre produtores e consumidores para reprocessamento flexível
+- 6 DAGs Airflow orquestrando ingestão, transformação e enriquecimento de dados de ponta a ponta
+- dbt com arquitetura 3 camadas (Staging → Intermediate → Marts) com testes de qualidade e lineage documentado
+- RAG em português com `multilingual-e5-small` (384-dim) + pgvector + Groq (llama-3.3-70b) para busca semântica em relatórios do setor (Abstartups, CVM, BNDES, LAVCA)
+- Observabilidade de LLM com métricas customizadas de latência, consumo de tokens e categorização de erros via Prometheus + Grafana
+
+**Fontes de dados:** APIs públicas (GitHub, BCB, Adzuna, Stack Overflow, HackerNews), scrapers (Distrito, Gupy, Sólides, RSS) e PDFs processados com OCR.
+
+`Python` `Kafka` `Airflow` `dbt` `PostgreSQL` `pgvector` `Groq` `Streamlit` `Grafana` `Prometheus` `Docker`
 
 ---
 
