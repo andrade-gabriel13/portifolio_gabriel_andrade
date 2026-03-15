@@ -4,7 +4,7 @@
 
 📍 Duque de Caxias, RJ · 📧 gabriel_andrade_souza@yahoo.com · 📱 (21) 97509-9661
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-gabrielandradesouza-0A66C2?style=flat&logo=linkedin&logoColor=white)](www.linkedin.com/in/gabriel-andradesouza/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-gabrielandradesouza-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/gabriel-andradesouza/)
 
 ---
 
